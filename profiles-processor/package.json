@@ -1,0 +1,37 @@
+{
+  "name": "@shakely/profiles-processor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@turf/helpers": "^6.1.4",
+    "@turf/turf": "^5.1.6",
+    "@types/aws-lambda": "^8.10.63",
+    "aws-sdk": "^2.751.0",
+    "config": "^3.3.1",
+    "fast-csv": "^4.3.2",
+    "geojson": "^0.5.0",
+    "install": "^0.13.0",
+    "knex": "^0.21.5",
+    "knex-postgis": "^0.12.0",
+    "npm": "^6.14.8",
+    "osrm-client-js": "^5.5.1",
+    "pg": "^8.3.2",
+    "ts-node": "^9.0.0",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.6.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-typescript": "^9.0.0",
+    "eslint-plugin-import": "^2.22.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "serverless-pseudo-parameters": "^2.5.0",
+    "serverless-step-functions": "^2.26.0",
+    "typescript": "^4.0.3"
+  }
+}

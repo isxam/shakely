@@ -1,0 +1,19 @@
+{
+  "osm": {
+    "db": {
+      "host": "0.0.0.0",
+      "user": "postgres",
+      "password": "",
+      "database": "postgres"
+    }
+  },
+  "segment": {
+    "db": {
+      "host": "0.0.0.0",
+      "user": "postgres",
+      "password": "",
+      "database": "postgres"
+    },
+    "levels": [5, 50, 500]
+  }
+}

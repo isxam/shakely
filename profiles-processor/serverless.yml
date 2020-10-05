@@ -1,0 +1,93 @@
+service: shakely-dataviewer-backend
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  stage: ${opt:stage, 'dev'}
+  region: eu-central-1
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "states:*"
+      Resource: "*"
+
+functions:
+  executeProcessing:
+    handler: src/lambda/onProfileCreated.execute
+    events:
+      - s3:
+          bucket: shakely-data
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: profiles/
+            - suffix: .csv
+    environment:
+      PROFILE_PROCESSING_STATE_MACHINE_ARN: ${self:resources.Outputs.ProfileProcessingStateMachine.Value}
+
+  prepareProfile:
+    handler: src/lambda/statemachine/prepareProfile.execute
+  matchRoute:
+    handler: src/lambda/statemachine/matchRoute.execute
+  searchSegments:
+    handler: src/lambda/statemachine/searchSegments.execute
+  matchSegmentIntervals:
+    handler: src/lambda/statemachine/matchSegmentIntervals.execute
+  buildSegmentsQuality:
+    handler: src/lambda/statemachine/buildSegmentsQuality.execute
+
+stepFunctions:
+  stateMachines:
+    process:
+      name: ProfileProcessingMachine
+      definition:
+        Comment: "Processes shakely profiles"
+        StartAt: PrepareProfile
+        States:
+          PrepareProfile:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [prepareProfile, Arn]
+            Next: MatchRoute
+          MatchRoute:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [ matchRoute, Arn ]
+            Next: SearchSegments
+          SearchSegments:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [ searchSegments, Arn ]
+            Next: MatchSegmentIntervals
+          MatchSegmentIntervals:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [ matchSegmentIntervals, Arn ]
+            Next: BuildSegmentsQuality
+          BuildSegmentsQuality:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [ buildSegmentsQuality, Arn ]
+            End: true
+  validate: true
+
+resources:
+  Outputs:
+    ProfileProcessingStateMachine:
+      Description: The ARN of the processor state machine
+      Value:
+        Ref: ProfileProcessingMachine
+
+plugins:
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+  - serverless-plugin-typescript
+
+package:
+  include:
+    - config/default.json

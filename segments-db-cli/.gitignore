@@ -1,0 +1,10 @@
+# package directories
+node_modules
+
+# Serverless directories
+.serverless
+dist
+.idea
+
+config/*.json
+!config/*.json.dist

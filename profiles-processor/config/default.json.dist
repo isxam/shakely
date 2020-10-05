@@ -1,0 +1,19 @@
+{
+  "segment": {
+    "db": {
+      "host": "0.0.0.0",
+      "user": "postgres",
+      "password": "",
+      "database": "postgres"
+    }
+  },
+  "aws": {
+    "output": {
+      "bucket": "bucket-name",
+      "dir": "output"
+    }
+  },
+  "osrm": {
+    "url": "http://0.0.0.0:5000"
+  }
+}

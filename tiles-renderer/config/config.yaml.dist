@@ -1,0 +1,28 @@
+map:
+  template: './config/map.xml.tmpl'
+  tile_dir: '/path/to/tiles/dir'
+  bbox: [27.411576, 53.834705, 27.712001, 53.973976]
+  zoom:
+    min: 12
+    max: 19
+db:
+  db_host: 127.0.0.1
+  db_user: postgres
+  db_password: postgres
+  db_name: postgres
+layers:
+  - zoom: [12, 13]
+    accuracy: 50
+    style_stroke: 2
+  - zoom: [14]
+    accuracy: 50
+    style_stroke: 3
+  - zoom: [15, 16]
+    accuracy: 50
+    style_stroke: 4
+  - zoom: [17, 18]
+    accuracy: 5
+    style_stroke: 5
+  - zoom: [19]
+    accuracy: 5
+    style_stroke: 6
